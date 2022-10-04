@@ -1,6 +1,7 @@
 package com.benem.peakgym.membership_history;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -32,7 +33,7 @@ public class MembershipHistoryEntity {
     @Id
     private final String membershipId = UUID.randomUUID().toString();
 
-    private final Date sellingDate = new Date();
+    private final LocalDateTime sellingDate = LocalDateTime.now();
 
     @NotNull
     private LocalDate startDate;

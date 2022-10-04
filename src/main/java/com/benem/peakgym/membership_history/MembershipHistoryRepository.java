@@ -1,9 +1,11 @@
 package com.benem.peakgym.membership_history;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.benem.peakgym.membership_history.projections.MembershipProjection;
+import com.benem.peakgym.product_history.projections.TransactionProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -28,4 +30,10 @@ public interface MembershipHistoryRepository extends JpaRepository<MembershipHis
            " AND (mh.occasionsLeft > 0 OR mh.occasionsLeft IS NULL)" +
            " ORDER BY mh.endDate ASC ")
     List<MembershipProjection> findActiveMemberships(LocalDate today);
+
+    @Query("SELECT mt.name AS name, mt.price AS price, mh.sellingDate AS sellingDate, CONCAT(u.lastName,' ',u.firstName) AS buyer" +
+             " FROM MembershipTypeEntity AS mt JOIN MembershipHistoryEntity AS mh ON mt.membershipTypeId = mh.type.membershipTypeId" +
+             " JOIN UserEntity AS u ON u.userId = mh.owner.userId" +
+             " WHERE mh.sellingDate BETWEEN :fromDate AND :toDate")
+    List<TransactionProjection> getMembershipTransactionsBetween(LocalDateTime fromDate, LocalDateTime toDate);
 }

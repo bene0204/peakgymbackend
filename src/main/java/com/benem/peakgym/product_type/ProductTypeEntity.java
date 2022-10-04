@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @AllArgsConstructor
@@ -30,6 +31,7 @@ public class ProductTypeEntity {
   @Id
   private String productTypeId = UUID.randomUUID().toString();
 
+  @Length(min = 5, max = 50)
   @NotBlank
   private String name;
 
