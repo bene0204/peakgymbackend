@@ -1,5 +1,6 @@
 package com.benem.peakgym.product_history;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -31,9 +32,11 @@ public class ProductHistoryEntity {
   @Id
   private final String transactionId = UUID.randomUUID().toString();
 
-  private final Date sellingDate = new Date();
+  private final LocalDateTime sellingDate = LocalDateTime.now();
 
   private Integer price;
+
+  private Integer quantity;
 
   @JsonBackReference
   @ManyToOne

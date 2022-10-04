@@ -1,6 +1,11 @@
 package com.benem.peakgym.product_history;
 
+import java.text.ParseException;
+import java.util.List;
+
+import com.benem.peakgym.product_history.projections.TransactionProjection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,5 +21,11 @@ public class ProductHistoryController {
                                           @RequestParam("buyerId") String buyerId,
                                           @RequestParam("quantity") Integer quantity){
       return productHistoryService.sellProduct(typeId, buyerId, quantity);
+  }
+
+  @GetMapping("api/product/listtransactions")
+  public List<TransactionProjection> getTransactionsBetween(@RequestParam("fromDate") String fromDate,
+                                                            @RequestParam("toDate") String toDate){
+    return productHistoryService.getTransactionsBetween(fromDate, toDate);
   }
 }

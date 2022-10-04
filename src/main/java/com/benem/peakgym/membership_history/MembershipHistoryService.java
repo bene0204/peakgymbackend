@@ -1,11 +1,13 @@
 package com.benem.peakgym.membership_history;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.benem.peakgym.membership_history.dto.ModifyMembershipDTO;
 import com.benem.peakgym.membership_history.projections.MembershipProjection;
 import com.benem.peakgym.membership_type.MembershipTypeService;
+import com.benem.peakgym.product_history.projections.TransactionProjection;
 import com.benem.peakgym.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,5 +66,9 @@ public class MembershipHistoryService {
         }
 
         return membershipHistoryRepository.save(membership);
+    }
+
+    public List<TransactionProjection> getMembershipTransactionsBetween(LocalDateTime fromDate, LocalDateTime toDate) {
+        return membershipHistoryRepository.getMembershipTransactionsBetween(fromDate, toDate);
     }
 }
