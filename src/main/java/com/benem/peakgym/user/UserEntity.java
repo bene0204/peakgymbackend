@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,7 +17,7 @@ import javax.validation.constraints.NotNull;
 
 import com.benem.peakgym.membership_history.MembershipHistoryEntity;
 import com.benem.peakgym.product_history.ProductHistoryEntity;
-import com.benem.peakgym.util.enums.USER_ROLES;
+import com.benem.peakgym.util.enums.USER_ROLE;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,7 +57,8 @@ public class UserEntity {
 
     private int balance = 0;
 
-    private String role = USER_ROLES.BASIC.getValue();
+    @Enumerated(EnumType.STRING)
+    private USER_ROLE role = USER_ROLE.BASIC;
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner")

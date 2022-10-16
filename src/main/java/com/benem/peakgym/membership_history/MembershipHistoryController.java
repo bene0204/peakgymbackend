@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.benem.peakgym.membership_history.dto.ModifyMembershipDTO;
 import com.benem.peakgym.membership_history.projections.MembershipProjection;
+import com.benem.peakgym.util.enums.PAYMENT_METHOD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,9 @@ public class MembershipHistoryController {
     public MembershipHistoryEntity sellMembership(
         @RequestParam("ownerId") String ownerId,
         @RequestParam("typeId") String typeId,
+        @RequestParam("paymentMethod") PAYMENT_METHOD paymentMethod,
         @Nullable @RequestParam("startDate") String startDate) {
-        return membershipHistoryService.sellMembership(ownerId, typeId, startDate);
+        return membershipHistoryService.sellMembership(ownerId, typeId, paymentMethod, startDate);
     }
 
     @GetMapping("api/membership/active/{id}")

@@ -3,7 +3,7 @@ package com.benem.peakgym.util.enums;
 import lombok.Getter;
 
 @Getter
-public enum USER_ROLES {
+public enum USER_ROLE {
 
     BASIC("BASIC"),
 
@@ -11,9 +11,9 @@ public enum USER_ROLES {
 
     ADMIN("ADMIN");
 
-    private final String value;
+    private final String label;
 
-    USER_ROLES(String label) {
-        this.value = label;
+    USER_ROLE(String label) {
+        this.label = label;
     }
 }
