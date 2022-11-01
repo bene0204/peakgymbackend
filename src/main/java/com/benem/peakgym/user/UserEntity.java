@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 
 import com.benem.peakgym.membership_history.MembershipHistoryEntity;
 import com.benem.peakgym.product_history.ProductHistoryEntity;
-import com.benem.peakgym.util.enums.USER_ROLE;
+import com.benem.peakgym.auth.USER_ROLE;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -2,14 +2,15 @@ package com.benem.peakgym.product_type;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ProductTypeService {
 
-  @Autowired
-  private ProductTypeRepository productTypeRepository;
+  private final ProductTypeRepository productTypeRepository;
 
   public ProductTypeEntity addProductType(ProductTypeEntity productTypeEntity) {
     return productTypeRepository.save(productTypeEntity);

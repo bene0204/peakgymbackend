@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     private final PasswordEncoder encoder;
 
@@ -23,4 +21,5 @@ public class UserService {
     public UserEntity findUserById(String userId) {
         return userRepository.findById(userId).get();
     }
+
 }

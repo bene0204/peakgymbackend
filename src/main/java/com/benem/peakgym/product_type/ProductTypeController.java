@@ -18,12 +18,12 @@ public class ProductTypeController {
   @Autowired
   private ProductTypeService productTypeService;
 
-  @PostMapping("api/producttype/add")
+  @PostMapping("admin/api/producttype/add")
   public ProductTypeEntity addProductType(@Valid @RequestBody ProductTypeEntity productTypeEntity) {
     return productTypeService.addProductType(productTypeEntity);
   }
 
-  @GetMapping("api/producttype/list")
+  @GetMapping("management/api/producttype/list")
   public List<ProductTypeEntity> getProductList(@Nullable @RequestParam("name") String name) {
       return  productTypeService.getProductList(name);
   }

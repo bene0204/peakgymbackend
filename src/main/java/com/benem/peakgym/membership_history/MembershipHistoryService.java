@@ -10,20 +10,19 @@ import com.benem.peakgym.membership_type.MembershipTypeService;
 import com.benem.peakgym.product_history.projections.TransactionProjection;
 import com.benem.peakgym.user.UserService;
 import com.benem.peakgym.util.enums.PAYMENT_METHOD;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class MembershipHistoryService {
 
-    @Autowired
-    private MembershipHistoryRepository membershipHistoryRepository;
+    private final MembershipHistoryRepository membershipHistoryRepository;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private MembershipTypeService membershipTypeService;
+    private final MembershipTypeService membershipTypeService;
 
 
     public MembershipHistoryEntity sellMembership(String ownerId, String typeId, PAYMENT_METHOD paymentMethod, String startDate) {

@@ -1,4 +1,4 @@
-package com.benem.peakgym.util.enums;
+package com.benem.peakgym.auth;
 
 import lombok.Getter;
 

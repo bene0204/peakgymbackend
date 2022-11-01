@@ -21,7 +21,7 @@ public class MembershipHistoryController {
     @Autowired
     private MembershipHistoryService membershipHistoryService;
 
-    @PostMapping("api/membership/sell")
+    @PostMapping("management/api/membership/sell")
     public MembershipHistoryEntity sellMembership(
         @RequestParam("ownerId") String ownerId,
         @RequestParam("typeId") String typeId,
@@ -30,17 +30,17 @@ public class MembershipHistoryController {
         return membershipHistoryService.sellMembership(ownerId, typeId, paymentMethod, startDate);
     }
 
-    @GetMapping("api/membership/active/{id}")
+    @GetMapping("management/api/membership/active/{id}")
     public List<MembershipProjection> getActiveMembershipsByOwner(@PathVariable("id") String ownerId) {
         return membershipHistoryService.findActiveMembershipsByOwner(ownerId);
     }
 
-    @GetMapping("api/membership/active")
+    @GetMapping("management/api/membership/active")
     public List<MembershipProjection> getActiveMemberships() {
         return membershipHistoryService.findActiveMemberships();
     }
 
-    @PatchMapping("api/membership/modify/{id}")
+    @PatchMapping("admin/api/membership/modify/{id}")
     public MembershipHistoryEntity modifyMembership(@RequestBody ModifyMembershipDTO modifyMembershipDTO, @PathVariable("id") String id) {
         return membershipHistoryService.modifyMembership(modifyMembershipDTO, id);
     }
