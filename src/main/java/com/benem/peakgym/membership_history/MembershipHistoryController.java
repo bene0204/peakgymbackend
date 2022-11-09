@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.benem.peakgym.membership_history.dto.ModifyMembershipDTO;
 import com.benem.peakgym.membership_history.projections.MembershipProjection;
+import com.benem.peakgym.util.enums.PAYMENT_METHOD;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,17 +17,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class MembershipHistoryController {
 
-    @Autowired
-    private MembershipHistoryService membershipHistoryService;
+    private final MembershipHistoryService membershipHistoryService;
 
-    @PostMapping("api/membership/sell")
+    @PostMapping("management/api/membership/sell")
     public MembershipHistoryEntity sellMembership(
         @RequestParam("ownerId") String ownerId,
         @RequestParam("typeId") String typeId,
+        @RequestParam("paymentMethod") PAYMENT_METHOD paymentMethod,
         @Nullable @RequestParam("startDate") String startDate) {
-        return membershipHistoryService.sellMembership(ownerId, typeId, startDate);
+        return membershipHistoryService.sellMembership(ownerId, typeId, paymentMethod, startDate);
     }
 
     @GetMapping("api/membership/active/{id}")
@@ -33,12 +36,16 @@ public class MembershipHistoryController {
         return membershipHistoryService.findActiveMembershipsByOwner(ownerId);
     }
 
-    @GetMapping("api/membership/active")
+    @GetMapping("api/membership/all/{id}")
+    public List<MembershipProjection> getAllMembershipsByOwner(@PathVariable("id") String ownerId) {
+        return membershipHistoryService.findAllMembershipsByOwner(ownerId);
+    }
+    @GetMapping("management/api/membership/active")
     public List<MembershipProjection> getActiveMemberships() {
         return membershipHistoryService.findActiveMemberships();
     }
 
-    @PatchMapping("api/membership/modify/{id}")
+    @PatchMapping("admin/api/membership/modify/{id}")
     public MembershipHistoryEntity modifyMembership(@RequestBody ModifyMembershipDTO modifyMembershipDTO, @PathVariable("id") String id) {
         return membershipHistoryService.modifyMembership(modifyMembershipDTO, id);
     }

@@ -2,18 +2,18 @@ package com.benem.peakgym.user;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @PostMapping("/api/user/signup")
+    @PostMapping("management/api/user/signup")
     public UserEntity signUpUser(@Valid @RequestBody UserEntity userEntity) {
         return userService.signupUser(userEntity);
     }

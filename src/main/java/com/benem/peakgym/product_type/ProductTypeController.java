@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,17 +14,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class ProductTypeController {
 
-  @Autowired
-  private ProductTypeService productTypeService;
+  private final ProductTypeService productTypeService;
 
-  @PostMapping("api/producttype/add")
+  @PostMapping("admin/api/producttype/add")
   public ProductTypeEntity addProductType(@Valid @RequestBody ProductTypeEntity productTypeEntity) {
     return productTypeService.addProductType(productTypeEntity);
   }
 
-  @GetMapping("api/producttype/list")
+  @GetMapping("management/api/producttype/list")
   public List<ProductTypeEntity> getProductList(@Nullable @RequestParam("name") String name) {
       return  productTypeService.getProductList(name);
   }

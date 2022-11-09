@@ -8,26 +8,25 @@ import com.benem.peakgym.membership_history.MembershipHistoryService;
 import com.benem.peakgym.product_history.projections.TransactionProjection;
 import com.benem.peakgym.product_type.ProductTypeService;
 import com.benem.peakgym.user.UserService;
+import com.benem.peakgym.util.enums.PAYMENT_METHOD;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductHistoryService {
 
-  @Autowired
-  private ProductHistoryRepository productHistoryRepository;
+  private final ProductHistoryRepository productHistoryRepository;
 
-  @Autowired
-  private ProductTypeService productTypeService;
+  private final ProductTypeService productTypeService;
 
-  @Autowired
-  private MembershipHistoryService membershipHistoryService;
+  private final MembershipHistoryService membershipHistoryService;
 
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
   @Transactional
-  public ProductHistoryEntity sellProduct(String typeId, String buyerId, Integer quantity) {
+  public ProductHistoryEntity sellProduct(String typeId, String buyerId, PAYMENT_METHOD paymentMethod, Integer quantity) {
     var buyer = userService.findUserById(buyerId);
     var type = productTypeService.findProductTypeById(typeId);
 
@@ -35,6 +34,7 @@ public class ProductHistoryService {
                            .product(type)
                            .buyer(buyer)
                            .price(type.getPrice() * quantity)
+                           .paymentMethod(paymentMethod)
                            .quantity(quantity)
                            .build();
 
@@ -61,5 +61,15 @@ public class ProductHistoryService {
       }
     });
     return transactions;
+  }
+
+  public Integer getSumOfTransactionsByPaymentMethod(String fromDate, String toDate, PAYMENT_METHOD paymentMethod) {
+    var from = LocalDateTime.parse(fromDate + "T00:00:00");
+    var to = LocalDateTime.parse(toDate + "T23:59:59");
+
+    Integer sumOfProductTransactions = productHistoryRepository.getSumOfTransactionsByPaymentMethod(from, to, paymentMethod);
+    Integer sumOfMembershipTransactions = membershipHistoryService.getSumOfTransactionsByPaymentMethod(from, to, paymentMethod);
+
+    return sumOfMembershipTransactions + sumOfProductTransactions;
   }
 }
