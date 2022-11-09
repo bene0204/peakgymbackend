@@ -24,6 +24,13 @@ public interface MembershipHistoryRepository extends JpaRepository<MembershipHis
     List<MembershipProjection> findActiveMembershipsByOwner(String ownerId, LocalDate today);
 
     @Query("SELECT mh.membershipId as membershipId, mt.name as name, mh.sellingDate as sellingDate, mh.startDate as startDate, mh.endDate as endDate, mh.occasionsLeft as occasionsLeft " +
+             "FROM MembershipHistoryEntity as mh" +
+             " JOIN MembershipTypeEntity as mt ON mh.type.membershipTypeId = mt.membershipTypeId" +
+             " WHERE mh.owner.userId = :ownerId" +
+             " ORDER BY mh.endDate DESC ")
+    List<MembershipProjection> findAllMembershipsByOwner(String ownerId);
+
+    @Query("SELECT mh.membershipId as membershipId, mt.name as name, mh.sellingDate as sellingDate, mh.startDate as startDate, mh.endDate as endDate, mh.occasionsLeft as occasionsLeft " +
            "FROM MembershipHistoryEntity as mh" +
            " JOIN MembershipTypeEntity as mt ON mh.type.membershipTypeId = mt.membershipTypeId" +
            " WHERE mh.endDate >= :today" +

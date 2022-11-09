@@ -51,6 +51,7 @@ public class UserEntity {
     @Email
     private String email;
 
+    @JsonIgnore
     private String password = "alma023";
 
     private String phoneNumber;

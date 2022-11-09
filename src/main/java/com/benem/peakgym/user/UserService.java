@@ -22,4 +22,8 @@ public class UserService {
         return userRepository.findById(userId).get();
     }
 
+    public UserEntity findByEmail(String email) {
+        return userRepository.findFirstByEmail(email).get();
+    }
+
 }

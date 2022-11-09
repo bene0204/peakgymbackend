@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MembershipTypeController {
     private final MembershipTypeService membershipTypeService;
 
-    @GetMapping("api/membershiptype/list")
+    @GetMapping("public/api/membershiptype/list")
     public List<MembershipTypeEntity> getMembershipTypes() {
         return membershipTypeService.getMembershipTypes();
     }

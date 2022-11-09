@@ -49,6 +49,10 @@ public class MembershipHistoryService {
         return membershipHistoryRepository.findActiveMembershipsByOwner(ownerId, LocalDate.now());
     }
 
+    public List<MembershipProjection> findAllMembershipsByOwner(String ownerId) {
+        return membershipHistoryRepository.findAllMembershipsByOwner(ownerId);
+    }
+
     public List<MembershipProjection> findActiveMemberships() {
         return membershipHistoryRepository.findActiveMemberships(LocalDate.now());
     }
