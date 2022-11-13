@@ -6,8 +6,6 @@ import com.benem.peakgym.membership_history.dto.ModifyMembershipDTO;
 import com.benem.peakgym.membership_history.projections.MembershipProjection;
 import com.benem.peakgym.util.enums.PAYMENT_METHOD;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,13 +25,13 @@ public class MembershipHistoryController {
         @RequestParam("ownerId") String ownerId,
         @RequestParam("typeId") String typeId,
         @RequestParam("paymentMethod") PAYMENT_METHOD paymentMethod,
-        @Nullable @RequestParam("startDate") String startDate) {
+        @RequestParam(value = "startDate", required = false) String startDate) {
         return membershipHistoryService.sellMembership(ownerId, typeId, paymentMethod, startDate);
     }
 
-    @GetMapping("api/membership/active/{id}")
-    public List<MembershipProjection> getActiveMembershipsByOwner(@PathVariable("id") String ownerId) {
-        return membershipHistoryService.findActiveMembershipsByOwner(ownerId);
+    @GetMapping("api/membership/recent/{id}")
+    public List<MembershipProjection> getRecentMembershipsByOwner(@PathVariable("id") String ownerId) {
+        return membershipHistoryService.findRecentMembershipsByOwner(ownerId);
     }
 
     @GetMapping("api/membership/all/{id}")

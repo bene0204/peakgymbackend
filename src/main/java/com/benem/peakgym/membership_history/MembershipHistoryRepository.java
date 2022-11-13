@@ -18,10 +18,9 @@ public interface MembershipHistoryRepository extends JpaRepository<MembershipHis
            "FROM MembershipHistoryEntity as mh" +
            " JOIN MembershipTypeEntity as mt ON mh.type.membershipTypeId = mt.membershipTypeId" +
            " WHERE mh.owner.userId = :ownerId" +
-           " AND mh.endDate >= :today" +
-           " AND (mh.occasionsLeft > 0 OR mh.occasionsLeft IS NULL)" +
+           " AND mh.endDate >= :recentDate" +
            " ORDER BY mh.endDate DESC ")
-    List<MembershipProjection> findActiveMembershipsByOwner(String ownerId, LocalDate today);
+    List<MembershipProjection> findRecentMembershipsByOwner(String ownerId, LocalDate recentDate);
 
     @Query("SELECT mh.membershipId as membershipId, mt.name as name, mh.sellingDate as sellingDate, mh.startDate as startDate, mh.endDate as endDate, mh.occasionsLeft as occasionsLeft " +
              "FROM MembershipHistoryEntity as mh" +

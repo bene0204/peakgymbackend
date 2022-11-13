@@ -11,7 +11,6 @@ import com.benem.peakgym.product_history.projections.TransactionProjection;
 import com.benem.peakgym.user.UserService;
 import com.benem.peakgym.util.enums.PAYMENT_METHOD;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,8 +44,9 @@ public class MembershipHistoryService {
         return membershipHistoryRepository.save(membership);
     }
 
-    public List<MembershipProjection> findActiveMembershipsByOwner(String ownerId) {
-        return membershipHistoryRepository.findActiveMembershipsByOwner(ownerId, LocalDate.now());
+    public List<MembershipProjection> findRecentMembershipsByOwner(String ownerId) {
+        LocalDate recentDate = LocalDate.now().minusDays(15);
+        return membershipHistoryRepository.findRecentMembershipsByOwner(ownerId, recentDate);
     }
 
     public List<MembershipProjection> findAllMembershipsByOwner(String ownerId) {
