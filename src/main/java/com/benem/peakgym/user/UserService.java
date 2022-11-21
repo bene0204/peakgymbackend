@@ -1,7 +1,8 @@
 package com.benem.peakgym.user;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,4 +27,7 @@ public class UserService {
         return userRepository.findFirstByEmail(email).get();
     }
 
+    public List<UserEntity> findUsers(String firstName, String lastName) {
+        return userRepository.findAllByFirstNameContainsIgnoreCaseAndLastNameContainsIgnoreCase(firstName, lastName);
+  }
 }
