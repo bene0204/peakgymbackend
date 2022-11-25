@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,12 @@ public class UserController {
     @PostMapping("management/api/user/signup")
     public UserEntity signUpUser(@Valid @RequestBody UserEntity userEntity) {
         return userService.signupUser(userEntity);
+    }
+
+    @PatchMapping("management/api/user/{userId}/update")
+    public UserEntity updateUser(@Valid @RequestBody UserEntity userEntity,
+                                 @PathVariable("userId") String userId) {
+        return userService.updateUser(userEntity, userId);
     }
 
     @GetMapping("management/api/user/{userId}")

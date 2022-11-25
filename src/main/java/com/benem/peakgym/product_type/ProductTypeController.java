@@ -5,8 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +23,7 @@ public class ProductTypeController {
   }
 
   @GetMapping("management/api/producttype/list")
-  public List<ProductTypeEntity> getProductList(@Nullable @RequestParam("name") String name) {
+  public List<ProductTypeEntity> getProductList(@RequestParam(value = "name", required = false) String name) {
       return  productTypeService.getProductList(name);
   }
 }
