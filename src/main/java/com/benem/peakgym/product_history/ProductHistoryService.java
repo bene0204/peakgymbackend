@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.benem.peakgym.membership_history.MembershipHistoryService;
+import com.benem.peakgym.product_history.dto.SellProductDTO;
 import com.benem.peakgym.product_history.projections.TransactionProjection;
 import com.benem.peakgym.product_type.ProductTypeService;
 import com.benem.peakgym.user.UserService;
 import com.benem.peakgym.util.enums.PAYMENT_METHOD;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,21 +26,26 @@ public class ProductHistoryService {
 
   private final UserService userService;
   @Transactional
-  public ProductHistoryEntity sellProduct(String typeId, String buyerId, PAYMENT_METHOD paymentMethod, Integer quantity) {
-    var buyer = userService.findUserById(buyerId);
-    var type = productTypeService.findProductTypeById(typeId);
+  public void sellProduct(String buyerId, List<SellProductDTO> productDTOS) {
 
-    var productHistory = ProductHistoryEntity.builder()
-                           .product(type)
-                           .buyer(buyer)
-                           .price(type.getPrice() * quantity)
-                           .paymentMethod(paymentMethod)
-                           .quantity(quantity)
-                           .build();
+    for(SellProductDTO dto : productDTOS) {
+      var buyer = userService.findUserById(buyerId);
+      var type = productTypeService.findProductTypeById(dto.getTypeId());
 
-    productTypeService.removeQuantityFromProduct(typeId, quantity);
+      var productHistory = ProductHistoryEntity.builder()
+                             .product(type)
+                             .buyer(buyer)
+                             .price(type.getPrice() * dto.getQuantity())
+                             .paymentMethod(PAYMENT_METHOD.valueOf(dto.getPaymentMethod()))
+                             .quantity(dto.getQuantity())
+                             .build();
 
-    return productHistoryRepository.save(productHistory);
+      productTypeService.removeQuantityFromProduct(dto.getTypeId(), dto.getQuantity());
+
+      productHistoryRepository.save(productHistory);
+
+    }
+
   }
 
   public List<TransactionProjection> getTransactionsBetween(String fromDate, String toDate)  {

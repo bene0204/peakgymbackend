@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.benem.peakgym.membership_history.dto.ModifyMembershipDTO;
+import com.benem.peakgym.membership_history.dto.SellMembershipDTO;
 import com.benem.peakgym.membership_history.projections.MembershipProjection;
 import com.benem.peakgym.membership_type.MembershipTypeService;
 import com.benem.peakgym.product_history.projections.TransactionProjection;
@@ -24,24 +25,28 @@ public class MembershipHistoryService {
     private final MembershipTypeService membershipTypeService;
 
 
-    public MembershipHistoryEntity sellMembership(String ownerId, String typeId, PAYMENT_METHOD paymentMethod, String startDate) {
-        var owner = userService.findUserById(ownerId);
-        var type = membershipTypeService.findMembershipTypeById(typeId);
-        LocalDate start = startDate == null ? LocalDate.now() : LocalDate.parse(startDate);
+    public void sellMembership(String ownerId, List<SellMembershipDTO> membershipDTOS) {
 
-        var membership = MembershipHistoryEntity.builder()
-            .owner(owner)
-            .type(type)
-            .startDate(start)
-            .endDate(start.plusDays(type.getNumberOfDays()))
-            .price(type.getPrice())
-            .paymentMethod(paymentMethod)
-            .build();
+        for (SellMembershipDTO dto: membershipDTOS) {
+            var owner = userService.findUserById(ownerId);
+            var type = membershipTypeService.findMembershipTypeById(dto.getTypeId());
+            LocalDate start = dto.getStartDate() == null ? LocalDate.now() : dto.getStartDate();
 
-        if (type.getNumberOfDays() != null) {
-            membership.setOccasionsLeft(type.getNumberOfOccasion());
+            var membership = MembershipHistoryEntity.builder()
+                               .owner(owner)
+                               .type(type)
+                               .startDate(start)
+                               .endDate(start.plusDays(type.getNumberOfDays()))
+                               .price(type.getPrice())
+                               .paymentMethod(PAYMENT_METHOD.valueOf(dto.getPaymentMethod()))
+                               .build();
+
+            if (type.getNumberOfDays() != null) {
+                membership.setOccasionsLeft(type.getNumberOfOccasion());
+            }
+            membershipHistoryRepository.save(membership);
         }
-        return membershipHistoryRepository.save(membership);
+
     }
 
     public List<MembershipProjection> findRecentMembershipsByOwner(String ownerId) {

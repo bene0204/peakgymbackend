@@ -3,15 +3,14 @@ package com.benem.peakgym.membership_history;
 import java.util.List;
 
 import com.benem.peakgym.membership_history.dto.ModifyMembershipDTO;
+import com.benem.peakgym.membership_history.dto.SellMembershipDTO;
 import com.benem.peakgym.membership_history.projections.MembershipProjection;
-import com.benem.peakgym.util.enums.PAYMENT_METHOD;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,13 +19,11 @@ public class MembershipHistoryController {
 
     private final MembershipHistoryService membershipHistoryService;
 
-    @PostMapping("management/api/membership/sell")
-    public MembershipHistoryEntity sellMembership(
-        @RequestParam("ownerId") String ownerId,
-        @RequestParam("typeId") String typeId,
-        @RequestParam("paymentMethod") PAYMENT_METHOD paymentMethod,
-        @RequestParam(value = "startDate", required = false) String startDate) {
-        return membershipHistoryService.sellMembership(ownerId, typeId, paymentMethod, startDate);
+    @PostMapping("management/api/membership/sell/{ownerId}")
+    public void sellMembership(
+      @PathVariable("ownerId") String ownerId,
+      @RequestBody List<SellMembershipDTO> membershipDTOS) {
+         membershipHistoryService.sellMembership(ownerId, membershipDTOS);
     }
 
     @GetMapping("api/membership/recent/{id}")
