@@ -35,8 +35,8 @@ public class MembershipTypeController {
 
 
     @PatchMapping("admin/api/membershiptype/modify/{id}")
-    public MembershipTypeEntity modifyMembershipTypeById(@RequestBody ModifyMembershipTypeDTO modifyMembershipTypeDTO, @PathVariable("id") String id) {
-        return membershipTypeService.modifyMembershipTypeById(modifyMembershipTypeDTO, id);
+    public MembershipTypeEntity modifyMembershipTypeById(@RequestBody MembershipTypeEntity membershipType, @PathVariable("id") String id) {
+        return membershipTypeService.modifyMembershipTypeById(membershipType, id);
     }
 
     @DeleteMapping("admin/api/membershiptype/delete/{id}")

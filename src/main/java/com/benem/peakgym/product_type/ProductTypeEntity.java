@@ -31,7 +31,6 @@ public class ProductTypeEntity {
   @Id
   private String productTypeId = UUID.randomUUID().toString();
 
-  @Length(min = 5, max = 50)
   @NotBlank
   private String name;
 

@@ -1,6 +1,7 @@
 package com.benem.peakgym.membership_type;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.benem.peakgym.membership_type.dto.ModifyMembershipTypeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,28 +21,28 @@ public class MembershipTypeService {
         return membershipTypeRepository.findAll();
     }
 
-    public MembershipTypeEntity modifyMembershipTypeById(ModifyMembershipTypeDTO modifyMembershipTypeDTO, String id) {
-        var membershipType = membershipTypeRepository.findById(id).get();
+    public MembershipTypeEntity modifyMembershipTypeById(MembershipTypeEntity modify, String id) {
+        var saved = membershipTypeRepository.findById(id).get();
 
-        String membershipTypeName = modifyMembershipTypeDTO.getName();
-        Integer price = modifyMembershipTypeDTO.getPrice();
-        Integer numberOfDays = modifyMembershipTypeDTO.getNumberOfDays();
-        Integer numberOfOccasion = modifyMembershipTypeDTO.getNumberOfOccasion();
+        String membershipTypeName = modify.getName();
+        Integer price = modify.getPrice();
+        Integer numberOfDays = modify.getNumberOfDays();
+        Integer numberOfOccasion = modify.getNumberOfOccasion();
 
-        if (membershipTypeName != null) {
-            membershipType.setName(membershipTypeName);
+        if (!Objects.equals(saved.getName(), membershipTypeName)) {
+            saved.setName(membershipTypeName);
         }
-        if (price != null) {
-            membershipType.setPrice(price);
+        if (!Objects.equals(saved.getPrice(), price)) {
+            saved.setPrice(price);
         }
-        if (numberOfDays != null) {
-            membershipType.setNumberOfDays(numberOfDays);
+        if (!Objects.equals(saved.getNumberOfDays(), numberOfDays)) {
+            saved.setNumberOfDays(numberOfDays);
         }
-        if (numberOfOccasion != null) {
-            membershipType.setNumberOfOccasion(numberOfOccasion);
+        if (saved.getNumberOfOccasion() != numberOfOccasion) {
+            saved.setNumberOfOccasion(numberOfOccasion);
         }
 
-        return membershipTypeRepository.save(membershipType);
+        return membershipTypeRepository.save(saved);
     }
 
     public void deleteMembershipTypeById(String id) {

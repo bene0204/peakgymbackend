@@ -34,4 +34,13 @@ public class ProductTypeService {
       return productTypeRepository.findAllByNameContainingIgnoreCase(name);
     }
   }
+
+  public void deleteProduct(String typeId) {
+    this.productTypeRepository.deleteById(typeId);
+  }
+
+  public ProductTypeEntity updateProduct(String typeId, ProductTypeEntity product) {
+    var saved = findProductTypeById(typeId);
+
+  }
 }
