@@ -10,11 +10,14 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.benem.peakgym.key_history.KeyHistoryEntity;
+import com.benem.peakgym.keys.KeyEntity;
 import com.benem.peakgym.membership_history.MembershipHistoryEntity;
 import com.benem.peakgym.product_history.ProductHistoryEntity;
 import com.benem.peakgym.auth.USER_ROLE;
@@ -68,4 +71,12 @@ public class UserEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "buyer")
     private List<ProductHistoryEntity> products;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "userId")
+    private KeyEntity key;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<KeyHistoryEntity> keys;
 }

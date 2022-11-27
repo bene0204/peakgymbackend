@@ -85,4 +85,19 @@ public class MembershipHistoryService {
     public Integer getSumOfTransactionsByPaymentMethod(LocalDateTime fromDate, LocalDateTime toDate, PAYMENT_METHOD paymentMethod) {
         return membershipHistoryRepository.getSumOfTransactionsByPaymentMethod(fromDate, toDate, paymentMethod);
     }
+
+    public MembershipHistoryEntity findMembershipById(String id) {
+        return membershipHistoryRepository.findById(id).get();
+    }
+
+    public Boolean isActive(MembershipHistoryEntity membership) {
+        return (membership.getStartDate().isBefore(LocalDate.now()) || membership.getStartDate().isEqual(LocalDate.now()))
+                 && (membership.getEndDate().isAfter(LocalDate.now()) || membership.getEndDate().isEqual(LocalDate.now()))
+                 && (membership.getOccasionsLeft() == null || membership.getOccasionsLeft() > 0);
+    }
+
+  public void removeOneOccasion(MembershipHistoryEntity membership) {
+        membership.setOccasionsLeft(membership.getOccasionsLeft() - 1);
+        membershipHistoryRepository.save(membership);
+  }
 }

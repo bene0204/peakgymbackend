@@ -31,7 +31,7 @@ public class ProductTypeController {
   }
 
   @PatchMapping("admin/api/producttype/update/{typeId}")
-  public ProductTypeEntity updateProduct(@PathVariable("typeId") String typeId, @RequestBody ProductTypeEntity product) {
+  public ProductTypeEntity updateProduct(@PathVariable("typeId") String typeId, @Valid @RequestBody ProductTypeEntity product) {
     return productTypeService.updateProduct(typeId, product);
   }
 

@@ -1,9 +1,9 @@
 package com.benem.peakgym.product_type;
 
 import java.util.List;
+import java.util.Objects;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,5 +42,18 @@ public class ProductTypeService {
   public ProductTypeEntity updateProduct(String typeId, ProductTypeEntity product) {
     var saved = findProductTypeById(typeId);
 
+    if (!Objects.equals(saved.getName(), product.getName())) {
+      saved.setName(product.getName());
+    }
+    if (!Objects.equals(saved.getQuantity(), product.getQuantity())) {
+      saved.setQuantity(product.getQuantity());
+    }
+    if (!Objects.equals(saved.getPrice(), product.getPrice())) {
+      saved.setPrice(product.getPrice());
+    }
+
+    return productTypeRepository.save(saved);
   }
+
+
 }
