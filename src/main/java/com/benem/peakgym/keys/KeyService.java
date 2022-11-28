@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.benem.peakgym.key_history.KeyHistoryService;
+import com.benem.peakgym.keys.dto.CheckInOrOutDTO;
 import com.benem.peakgym.keys.dto.SetupKeysDTO;
 import com.benem.peakgym.membership_history.MembershipHistoryService;
 import com.benem.peakgym.user.UserService;
@@ -45,18 +46,20 @@ public class KeyService {
   }
 
   @Transactional
-  public void checkInUser(String keyNumber, String membershipId, String userId) {
+  public List<KeyEntity> checkInUser(String keyNumber, CheckInOrOutDTO dto) {
     var key = keyRepository.findById(keyNumber).get();
-    var membership = membershipHistoryService.findMembershipById(membershipId);
-    var user = userService.findUserById(userId);
+    var membership = membershipHistoryService.findMembershipById(dto.getMembershipId());
+    var user = userService.findUserById(dto.getUserId());
     if (membershipHistoryService.isActive(membership)) {
       key.setUserId(user);
       keyRepository.save(key);
       if (membership.getOccasionsLeft() != null) {
         membershipHistoryService.removeOneOccasion(membership);
       }
-      keyHistoryService.checkInUser(user, key);
+      keyHistoryService.checkInUser(user, key, membership);
     }
+
+    return keyRepository.findAllByUserIdNotNull();
   }
 
   @Transactional
@@ -67,5 +70,13 @@ public class KeyService {
     keyRepository.save(key);
 
     keyHistoryService.checkOutUser(key);
+  }
+
+  public String getUserIdGotKey(String key) {
+    return keyRepository.getUserIdGotKey(key);
+  }
+
+  public List<KeyEntity> getKeys() {
+    return keyRepository.findAll();
   }
 }

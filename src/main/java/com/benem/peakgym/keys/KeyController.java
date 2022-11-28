@@ -1,7 +1,11 @@
 package com.benem.peakgym.keys;
 
+import java.util.List;
+
+import com.benem.peakgym.keys.dto.CheckInOrOutDTO;
 import com.benem.peakgym.keys.dto.SetupKeysDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,13 +24,23 @@ public class KeyController {
     keyService.setupKeys(setup);
   }
 
+  @GetMapping("management/api/keys")
+  public List<KeyEntity> getKeys(){
+    return keyService.getKeys();
+  }
+
   @PatchMapping("management/api/keys/checkin/{key}")
-  public void checkInUser(@PathVariable("key") String key, @RequestParam("membership") String membership, @RequestParam("userId") String userId) {
-    keyService.checkInUser(key, membership, userId);
+  public List<KeyEntity> checkInUser(@PathVariable("key") String key, @RequestBody CheckInOrOutDTO dto) {
+    return keyService.checkInUser(key, dto);
   }
 
   @PatchMapping("management/api/keys/checkout/{key}")
   public void checkOutUser(@PathVariable("key") String key) {
     keyService.chechOutUser(key);
+  }
+
+  @GetMapping("management/api/keys/{key}")
+  public String getUserIdGotKey(@PathVariable("key") String key){
+    return keyService.getUserIdGotKey(key);
   }
 }

@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.benem.peakgym.keys.KeyEntity;
+import com.benem.peakgym.membership_history.MembershipHistoryEntity;
 import com.benem.peakgym.user.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,12 @@ public class KeyHistoryEntity {
 
   private LocalDateTime checkOutTime;
 
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "membershipId", referencedColumnName = "membershipId")
+  private MembershipHistoryEntity membership;
+
+  @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "keyId", referencedColumnName = "key")
   private KeyEntity key;
