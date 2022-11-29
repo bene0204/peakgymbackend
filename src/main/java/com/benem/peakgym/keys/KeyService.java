@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.benem.peakgym.key_history.KeyHistoryService;
+import com.benem.peakgym.key_history.dto.KeyResponseDTO;
 import com.benem.peakgym.keys.dto.CheckInOrOutDTO;
 import com.benem.peakgym.keys.dto.SetupKeysDTO;
 import com.benem.peakgym.membership_history.MembershipHistoryService;
@@ -72,8 +73,10 @@ public class KeyService {
     keyHistoryService.checkOutUser(key);
   }
 
-  public String getUserIdGotKey(String key) {
-    return keyRepository.getUserIdGotKey(key);
+  public KeyResponseDTO getUserIdGotKey(String key) {
+    return KeyResponseDTO.builder()
+             .userId(keyRepository.getUserIdGotKey(key))
+             .build();
   }
 
   public List<KeyEntity> getKeys() {

@@ -2,6 +2,7 @@ package com.benem.peakgym.keys;
 
 import java.util.List;
 
+import com.benem.peakgym.key_history.dto.KeyResponseDTO;
 import com.benem.peakgym.keys.dto.CheckInOrOutDTO;
 import com.benem.peakgym.keys.dto.SetupKeysDTO;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,7 +40,7 @@ public class KeyController {
   }
 
   @GetMapping("management/api/keys/{key}")
-  public String getUserIdGotKey(@PathVariable("key") String key){
+  public KeyResponseDTO getUserIdGotKey(@PathVariable("key") String key){
     return keyService.getUserIdGotKey(key);
   }
 }
