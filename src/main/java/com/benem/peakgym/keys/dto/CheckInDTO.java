@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CheckInOrOutDTO {
+public class CheckInDTO {
 
   private String membershipId;
 

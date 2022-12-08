@@ -3,7 +3,7 @@ package com.benem.peakgym.keys;
 import java.util.List;
 
 import com.benem.peakgym.key_history.dto.KeyResponseDTO;
-import com.benem.peakgym.keys.dto.CheckInOrOutDTO;
+import com.benem.peakgym.keys.dto.CheckInDTO;
 import com.benem.peakgym.keys.dto.SetupKeysDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +30,7 @@ public class KeyController {
   }
 
   @PatchMapping("management/api/keys/checkin/{key}")
-  public List<KeyEntity> checkInUser(@PathVariable("key") String key, @RequestBody CheckInOrOutDTO dto) {
+  public List<KeyEntity> checkInUser(@PathVariable("key") String key, @RequestBody CheckInDTO dto) {
     return keyService.checkInUser(key, dto);
   }
 

@@ -28,6 +28,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import static com.benem.peakgym.service.PasswordService.generatePassword;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -55,7 +57,7 @@ public class UserEntity {
     private String email;
 
     @JsonIgnore
-    private String password = "alma023";
+    private String password = generatePassword(8);
 
     private String phoneNumber;
 

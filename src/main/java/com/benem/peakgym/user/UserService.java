@@ -1,8 +1,13 @@
 package com.benem.peakgym.user;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Objects;
 
+import javax.mail.MessagingException;
+
+import com.benem.peakgym.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,10 +17,14 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
+    private final NotificationService notificationService;
+
     private final PasswordEncoder encoder;
 
-    public UserEntity signupUser(UserEntity userEntity) {
+    public UserEntity signupUser(UserEntity userEntity) throws MessagingException, GeneralSecurityException, IOException {
         String hashedPassword = encoder.encode(userEntity.getPassword());
+
+        notificationService.sendWelcomeEmail(userEntity.getLastName() + " " + userEntity.getFirstName(), userEntity.getEmail(), userEntity.getPassword());
         userEntity.setPassword(hashedPassword);
         return userRepository.save(userEntity);
     }

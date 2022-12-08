@@ -1,7 +1,10 @@
 package com.benem.peakgym.user;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("management/api/user/signup")
-    public UserEntity signUpUser(@Valid @RequestBody UserEntity userEntity) {
+    public UserEntity signUpUser(@Valid @RequestBody UserEntity userEntity) throws MessagingException, GeneralSecurityException, IOException {
         return userService.signupUser(userEntity);
     }
 

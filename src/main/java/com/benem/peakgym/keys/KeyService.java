@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.benem.peakgym.key_history.KeyHistoryService;
 import com.benem.peakgym.key_history.dto.KeyResponseDTO;
-import com.benem.peakgym.keys.dto.CheckInOrOutDTO;
+import com.benem.peakgym.keys.dto.CheckInDTO;
 import com.benem.peakgym.keys.dto.SetupKeysDTO;
 import com.benem.peakgym.membership_history.MembershipHistoryService;
 import com.benem.peakgym.user.UserService;
@@ -47,7 +47,7 @@ public class KeyService {
   }
 
   @Transactional
-  public List<KeyEntity> checkInUser(String keyNumber, CheckInOrOutDTO dto) {
+  public List<KeyEntity> checkInUser(String keyNumber, CheckInDTO dto) {
     var key = keyRepository.findById(keyNumber).get();
     var membership = membershipHistoryService.findMembershipById(dto.getMembershipId());
     var user = userService.findUserById(dto.getUserId());

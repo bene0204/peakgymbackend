@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.Length;
 public class ProductTypeEntity {
 
   @Id
-  private String productTypeId = UUID.randomUUID().toString();
+  private final String productTypeId = UUID.randomUUID().toString();
 
   @NotBlank
   private String name;
